@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Dices from './components/Dices'
 import React, {useState, useEffect} from 'react'
 import {nanoid} from 'nanoid'
+import Confetti from 'react-confetti'
 
 const Container = styled.div`
   width: 100vw;
@@ -37,8 +38,15 @@ const Button = styled.button`
   border: none;
   color: white;
   font-size: 1.5rem;
-  margin-top: 1rem;
+  
 ` 
+const ButtonWraper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+  justify-content: space-evenly;
+  width: 80%;
+`
 function App() {
   const [dices, setDices] = useState(allNewDice())
   const [tenzies, setTenzies] = useState(false)
@@ -70,11 +78,14 @@ function App() {
 
   function holdDice(id){
     setDices(prevDie => prevDie.map(die => {
-      return die.id === id ? {...die, isHeld: true} : die
+      return die.id === id ? {...die, isHeld: !die.isHeld} : die
     }))
   }
  
-
+  function NewGame(){
+    setDices(allNewDice())
+    setTenzies(false)
+  }
  useEffect(()=>{
   
   const allHeld = dices.every(die => die.isHeld)
@@ -85,6 +96,7 @@ function App() {
   if(allHeld && allSameValue){
     setTenzies(true)
     console.log('ez')
+    
   }
  }, [dices])
  
@@ -96,7 +108,11 @@ function App() {
           Roll untill all dice are the same. Click each die to freeze it at its current value between rolls.
         </Description>
         <Dices dices={dices} holdDice={holdDice}/>
-        <Button onClick={rollDice}>Roll</Button>
+        <ButtonWraper>
+          <Button onClick={rollDice}>Roll</Button>
+          <Button onClick={NewGame}>New Game</Button>
+        </ButtonWraper>
+        {tenzies && <Confetti/>}
     </Wraper>
    </Container>
   );
