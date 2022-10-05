@@ -62,14 +62,32 @@ function App() {
     setDices(allNewDice)
    }
 
-  function holdDice(){
+  function holdDice(id){
+    // setDices(prevDie => {
+    //   const newArray = []
+    //   for (let i=0; i<10;i++){
+    //     const currentDie = prevDie[i]
+    //     if(currentDie.id === id){
+    //       const updatedDices={
+    //         ...prevDie,
+    //         isHeld: true
+    //       }
+    //       newArray.push(updatedDices)
+    //     }else{
+    //       newArray.push(currentDie)
+    //     }
+    //   }
+    //   return newArray
+    // })
     
+    setDices(prevDie => prevDie.map(die => {
+      return die.id === id ? {...die, isHeld: !die.isHeld} : die
+    }))
   }
  
 
  
  
-  
   return (
    <Container>
     <Wraper>
@@ -77,7 +95,7 @@ function App() {
         <Description>
           Roll untill all dice are the same. Click each die to freeze it at its current value between rolls.
         </Description>
-        <Dices dices={dices}/>
+        <Dices dices={dices} holdDice={holdDice}/>
         <Button onClick={rollDice}>Roll</Button>
     </Wraper>
    </Container>

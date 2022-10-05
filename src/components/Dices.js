@@ -13,10 +13,15 @@ const Container = styled.div`
 function Dices(props) {
 
     const newDices = props.dices.map((die) => 
-        <Dice value={die.value} key={die.id} isHeld={die.isHeld}/>
+        <Dice 
+        value={die.value} 
+        key={die.id} 
+        isHeld={die.isHeld} 
+        holdDice={() => props.holdDice(die.id)}
+        />
     )
     
-   console.log(props.dices)
+  
     return ( 
         <Container>
             {newDices}

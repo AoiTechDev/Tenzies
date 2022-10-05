@@ -4,6 +4,7 @@ const Container = styled.div`
     width: 4rem;
     height: 4rem;
     background: ${props => props.isHeld ? '#59E391' : '#FFFFFF'};
+    color: black;
     margin: 6px;
     border-radius: 10px;
     display: flex;
@@ -16,7 +17,7 @@ const Container = styled.div`
 function Dice(props) {
     
     return ( 
-    <Container isHeld={props.isHeld}>
+    <Container isHeld={props.isHeld} onClick={props.holdDice}>
         {props.value}
     </Container> 
     );
