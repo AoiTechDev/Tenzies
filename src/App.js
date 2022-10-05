@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import Dices from './components/Dices'
 import React, {useState, useEffect} from 'react'
+import {nanoid} from 'nanoid'
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -39,7 +41,7 @@ const Button = styled.button`
 ` 
 function App() {
   const [dices, setDices] = useState(allNewDice())
-  // const [tenzies, setTenzies] = useState(false)
+  const [tenzies, setTenzies] = useState(false)
 
   function randomNumberInRange() {
     return Math.floor(Math.random() * (9 - 1 + 1)) + 1;
@@ -48,45 +50,43 @@ function App() {
   function allNewDice(){
     const newArray = []
     for(let i=0; i<10;i++){
-      const newDie = {
-        value: randomNumberInRange(),
-        isHeld: false,
-        id: i+1
-      }
-      newArray.push(newDie)
+      newArray.push(generateNewDie())
     }
     return newArray
   }
   
+  function generateNewDie(){
+    return {
+        value: randomNumberInRange(),
+        isHeld: false,
+        id: nanoid()
+    }
+  }
   function rollDice(){
-    setDices(allNewDice)
+    setDices(prevDie => prevDie.map(die => {
+      return die.isHeld ? die : generateNewDie()
+    }))
    }
 
   function holdDice(id){
-    // setDices(prevDie => {
-    //   const newArray = []
-    //   for (let i=0; i<10;i++){
-    //     const currentDie = prevDie[i]
-    //     if(currentDie.id === id){
-    //       const updatedDices={
-    //         ...prevDie,
-    //         isHeld: true
-    //       }
-    //       newArray.push(updatedDices)
-    //     }else{
-    //       newArray.push(currentDie)
-    //     }
-    //   }
-    //   return newArray
-    // })
-    
     setDices(prevDie => prevDie.map(die => {
-      return die.id === id ? {...die, isHeld: !die.isHeld} : die
+      return die.id === id ? {...die, isHeld: true} : die
     }))
   }
  
 
- 
+ useEffect(()=>{
+  
+  const allHeld = dices.every(die => die.isHeld)
+  const firstValue = dices[0].value
+  const allSameValue = dices.every(die => die.value === firstValue)
+
+
+  if(allHeld && allSameValue){
+    setTenzies(true)
+    console.log('ez')
+  }
+ }, [dices])
  
   return (
    <Container>
