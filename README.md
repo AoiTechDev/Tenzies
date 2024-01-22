@@ -4,6 +4,9 @@
 
 Tenzies is an engaging dice game where the goal is to roll the dice until all of them show the same value. The game provides a user-friendly interface that allows players to interact with the dice and freeze them at their current values between rolls.
 
+## Link to project site
+https://bornikowski-tenzies.netlify.app/
+
 <h2 align="left">Tech stack</h2>
 
 ###
